@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>typing-touch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Agdasima:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *{
+        margin : 0;
+        padding : 0;
+        box-sizing : border-box;
+    }
+    body{
+        background-color: aqua;
+    }
+    .wrapper{
+        background-color: aquamarine;
+        width: 50%;
+        height: 60vh;
+        margin: auto;
+        margin-top: 10vh;
+        text-align: center;
+        padding: 30px;
+    }
+    h2 , p , input{
+        font-size: 2rem;
+        margin-top: 40px;
+    }
+    input{
+        background-color: rgb(111, 202, 111);
+    }
+    .message{
+        background-color: black;
+        color: #fff;
+        width: 40%;
+        height: auto;
+        margin: auto;
+        margin-top: 0.5rem;
+        text-align: center;
+        padding: 10px;
+    }
+    button{
+        margin-top: 0.5rem;
+        background-color: blue;
+        color: #fff;
+        padding: .5rem;
+        border-radius: 20px;
+    }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="wrapper">
+        <div >
+            <h1>Fun Typing Game</h1>
+        </div>
+        <div id="text">
+            <p>we go to gym</p>
+        </div>
+        <div class="typing_area">
+            <input type="text" placeholder="Enter Text Here">
+        </div>
+    </div>
+    <div class="message" style = "display: none;">
+        <p></p>
+    </div>
+
+    <script>
+
+        // RandomStr function for Random String
+             function RandomStr(length) {
+    let result = '';
+    const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    } return result;  }
+document.querySelector("p").innerHTML =RandomStr(16);
+
+
+// main logic for typing game
+let para = document.querySelector("#text p").innerHTML;
+let check = document.querySelector("input");
+let accuracy =0
+let container = document.querySelector(".wrapper")
+
+        check.onkeyup =()=> {
+            // slicing the random text to compare it to input text
+            let str = para.slice(0,check.value.length)
+            accuracy += 1
+
+
+            // checking conditions if all of them are true then given output message and create a reset button , and if one of them is false then it will check another conditions that are for inform the user weather they are typing right string or wrong string
+           if((check.value.length === para.length && check.value == str) && (para.length>0 && check.value.length>0)){
+            container.id="over"
+            document.querySelector("h1").innerHTML = "level completed"
+            check.disabled = true;
+            let button = document.createElement("button")
+            button.innerText ="Next";
+            document.querySelector("#text p").innerHTML = "You Win"
+            button.onclick=()=>{
+                location.reload();
+                };
+                document.querySelector(".message").appendChild(button);
+                document.querySelector(".message").style.display="block"
+                let accu_msg = document.querySelector(".message p")
+                accu_msg.innerHTML = "Accuracy : "+((para.length/accuracy)*100).toFixed(0)
+                console.log(accuracy)
+           }
+           else{
+               if(check.value == str){
+                   container.style = ""
+                   document.querySelector(".wrapper h1").innerHTML = "Touch Typing"
+               }
+               else{
+                   container.style.background="red"
+                   document.querySelector(".wrapper h1").innerHTML = "Wrong Typing"
+               } }
+        }
+    </script>
+</body>
+
+</html>
+
+<!-- 
+Task: Create Touch Typing Game
+Description: Create a typing game that has a timer and shows the typing speed in words per minute(WPM)
+
+
+
+Acceptace criteria
+
+Timer element ID timer
+
+WPM element ID wpm
+
+Container element ID container
+
+correct, incorrect classes should be used appropriately to mark letters if the user typed some letters.
+
+Initially timer and wpm should be zero(0)
+
+User can start the game clicking on container element
+
+In order to start the game, start the timer, and the user should be able to type and see their progress in the wpm element
+
+User can stop the game by clicking outside of container
+
+In order to stop the game, stop the timer and set it to zero(0), pause the wpm whatever its value was, and remove classes correct/incorrect from the letter of the quote (make it like new rendered quote)
+
+If the user typed the rendered quote completely (doesn't matter correct/incorrect), automatically render a new quote and set the timer to zero(0)
+
+Update the timer after each second by 1 (one) when game stated. The timer should show the time passed in seconds.
+
+Given formula should be used to calculate speed(wpm)
+
+You should be using this API  (http://api.quotable.io/random) to get quotes. Be mindful of special letters/symbols
+
+Use fetch() to make API calls
+
+Use Math.round() in order to round wpm.
+
+Time-Elapsed (sec) should be calculate using Math.floor((new Date() - startTime) / 1000)startTime ->Timestamp(when timer started)
+
+WPM should be calculating using Math.round(parseFloat(correctStrokes()) / 5.0 / (parseFloat(Time-Elapsed(sec)) / 60.0)); Formula is shown in the picture
+
+Update the wpm on each-stroke(doesn't matter correct/incorrect)
+
+Input should be given to body tag. Hint add an event listener to document.
+
+Use keydown event for input. Hint: e.key/e.keyCode
+
+Try to make it interactive/engaging/awesome. Happy coding :) -->
+
+
+
